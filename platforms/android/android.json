@@ -19,6 +19,14 @@
                         {
                             "xml": "<feature name=\"Canvas2ImagePlugin\"><param name=\"android-package\" value=\"org.devgeeks.Canvas2ImagePlugin.Canvas2ImagePlugin\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Whitelist\"><param name=\"android-package\" value=\"org.apache.cordova.whitelist.LegacyWhitelistPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Flashlight\"><param name=\"android-package\" value=\"nl.xservices.plugins.Flashlight\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -34,6 +42,12 @@
                     "application": [
                         {
                             "xml": "<provider android:authorities=\"${applicationId}.provider\" android:exported=\"false\" android:grantUriPermissions=\"true\" android:name=\"android.support.v4.content.FileProvider\"><meta-data android:name=\"android.support.FILE_PROVIDER_PATHS\" android:resource=\"@xml/provider_paths\" /></provider>",
+                            "count": 1
+                        }
+                    ],
+                    "/manifest": [
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.CAMERA\" />",
                             "count": 1
                         }
                     ]
@@ -55,6 +69,12 @@
             "PACKAGE_NAME": "com.phonegap.resistorcam"
         },
         "org.devgeeks.Canvas2ImagePlugin": {
+            "PACKAGE_NAME": "com.phonegap.resistorcam"
+        },
+        "cordova-plugin-legacy-whitelist": {
+            "PACKAGE_NAME": "com.phonegap.resistorcam"
+        },
+        "cordova-plugin-flashlight": {
             "PACKAGE_NAME": "com.phonegap.resistorcam"
         }
     },
@@ -107,6 +127,14 @@
             "clobbers": [
                 "window.canvas2ImagePlugin"
             ]
+        },
+        {
+            "id": "cordova-plugin-flashlight.Flashlight",
+            "file": "plugins/cordova-plugin-flashlight/www/Flashlight.js",
+            "pluginId": "cordova-plugin-flashlight",
+            "clobbers": [
+                "window.plugins.flashlight"
+            ]
         }
     ],
     "plugin_metadata": {
@@ -114,6 +142,8 @@
         "cordova-plugin-statusbar": "1.0.1",
         "cordova-plugin-compat": "1.1.0",
         "cordova-plugin-camera": "2.4.0",
-        "org.devgeeks.Canvas2ImagePlugin": "0.6.0"
+        "org.devgeeks.Canvas2ImagePlugin": "0.6.0",
+        "cordova-plugin-legacy-whitelist": "1.1.2",
+        "cordova-plugin-flashlight": "3.2.0"
     }
 }

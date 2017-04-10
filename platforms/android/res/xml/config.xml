@@ -10,6 +10,13 @@
     <feature name="Canvas2ImagePlugin">
         <param name="android-package" value="org.devgeeks.Canvas2ImagePlugin.Canvas2ImagePlugin" />
     </feature>
+    <feature name="Whitelist">
+        <param name="android-package" value="org.apache.cordova.whitelist.LegacyWhitelistPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Flashlight">
+        <param name="android-package" value="nl.xservices.plugins.Flashlight" />
+    </feature>
     <name>ResistorCam</name>
     <description>
         A basic Framework7 template for PhoneGap.
@@ -25,6 +32,7 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+    <allow-navigation href="http://home.loosescre.ws/*" />
     <allow-intent href="market:*" />
     <icon density="ldpi" src="res/icon/android/drawable-ldpi-icon.png" />
     <icon density="mdpi" src="res/icon/android/drawable-mdpi-icon.png" />

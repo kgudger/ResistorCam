@@ -47,6 +47,14 @@ module.exports = [
         "clobbers": [
             "window.canvas2ImagePlugin"
         ]
+    },
+    {
+        "id": "cordova-plugin-flashlight.Flashlight",
+        "file": "plugins/cordova-plugin-flashlight/www/Flashlight.js",
+        "pluginId": "cordova-plugin-flashlight",
+        "clobbers": [
+            "window.plugins.flashlight"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -56,7 +64,9 @@ module.exports.metadata =
     "cordova-plugin-statusbar": "1.0.1",
     "cordova-plugin-compat": "1.1.0",
     "cordova-plugin-camera": "2.4.0",
-    "org.devgeeks.Canvas2ImagePlugin": "0.6.0"
+    "org.devgeeks.Canvas2ImagePlugin": "0.6.0",
+    "cordova-plugin-legacy-whitelist": "1.1.2",
+    "cordova-plugin-flashlight": "3.2.0"
 };
 // BOTTOM OF METADATA
 });

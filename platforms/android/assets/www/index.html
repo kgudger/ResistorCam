@@ -10,7 +10,7 @@
             * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
                 * Enable inline JS: add 'unsafe-inline' to default-src
         -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: http://home.loosescre.ws gap: https://ssl.gstatic.com 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *">
 
     <!-- Required meta tags-->
     <meta charset="utf-8">
@@ -54,6 +54,9 @@
             <div class="navbar">
                 <div class="navbar-inner">
                     <!-- We need cool sliding animation on title element, so we have additional "sliding" class -->
+					<div class="left">
+                    <a href="#" class="link" onclick="photoCap()"><i class="f7-icons">camera</i></a>
+                    </div>
                     <div class="center sliding">ResistorCam</div>
                     <div class="right">
                         <!--
@@ -65,28 +68,28 @@
                 </div>
             </div>
             <!-- Pages container, because we use fixed-through navbar and toolbar, it has additional appropriate classes-->
-            <div class="pages navbar-through toolbar-through">
+            <div class="pages navbar-through">
                 <!-- Page, "data-page" contains page name -->
                 <div data-page="index" class="page">
                     <!-- Scrollable page content -->
                     <div class="page-content">
-                        <div class="content-block">
+                        <div class="content-block" style="margin:0 !important;padding:0 !important;">
                             <!-- Link to another page -->
-							<div style="text-align:center;margin:20px;" id="can_id">
+							<div style="text-align:center;margin:0px;" id="can_id">
 								<canvas id="canvas"/>
 							</div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Bottom Toolbar-->
+            <!-- Bottom Toolbar
             <div class="toolbar">
                 <div class="toolbar-inner">
-                    <!-- Toolbar links -->
+                    <!-- Toolbar links 
                     <a href="#leftpanel" class="link open-panel">About app</a>
                     <a href="#" class="link" onclick="photoCap()">Take Photo</a>
                 </div>
-            </div>
+            </div>-->
         </div>
     </div>
 

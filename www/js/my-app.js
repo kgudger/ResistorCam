@@ -8,6 +8,7 @@ Template7.global = {
 
 // If we need to use custom DOM library, let's save it to $$ variable:
 var $$ = Dom7;
+var returnedText ="";
 
 if (isAndroid) {
     // Change class
@@ -20,9 +21,15 @@ if (isAndroid) {
 var myApp = new Framework7({
     material: isAndroid ? true : false,
     // Enable Template7 pages
-    template7Pages: true	
+    template7Pages: true,	
+    init: false
 });
 
+myApp.onPageInit('index', function (page) {
+	console.log("In index Page");
+    // Do something here for "about" page
+	make_base();
+});
 
 // Add view
 var mainView = myApp.addView('.view-main', {
@@ -30,20 +37,23 @@ var mainView = myApp.addView('.view-main', {
     dynamicNavbar: true
 });
 
+//And now we initialize app
+myApp.init();
+
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
     console.log("Device is ready!");
 });
 
-
 // Now we need to run the code that will be executed only for About page.
 
 // Option 1. Using page callback for page (for "about" page in this case) (recommended way):
 myApp.onPageInit('about', function (page) {
+	console.log("In About Page");
     // Do something here for "about" page
 
-})
-
+});
+/*
 // Option 2. Using one 'pageInit' event handler for all pages:
 $$(document).on('pageInit', function (e) {
     // Get page data from event data
@@ -60,82 +70,143 @@ $$(document).on('pageInit', '.page[data-page="about"]', function (e) {
     // Following code will be executed for page with data-page attribute equal to "about"
     myApp.alert('Here comes About page');
 })
-
+*/
 /**
  *	photoCap function, called when Take Photo clicked
  */
 function photoCap() {
-	alert("Taking Photo");
-	if (butid = document.getElementById('saveButt')) 
-		butid.parentNode.removeChild(butid);
+//	alert("Taking Photo");
 	if(navigator.camera) {
+/*		window.plugins.flashlight.available(function(isAvailable) {
+			if (isAvailable) {
+		// switch on
+			window.plugins.flashlight.switchOn(
+			null, // optional success callback
+			null // optional error callback
+//			{intensity: 0.3} // optional as well
+			)}});*/
+
 		var canid  = document.getElementById('can_id');
-		navigator.camera.getPicture(function(imageData){
+		navigator.camera.getPicture(function(imageURI){
 			var canvas = document.getElementById('canvas');
-//			style="width:auto;height:500px;"
-			canvas.style.width = "auto";
-//			canvas.style.height = "500px";
-			canvas.style.height = "auto";
 			var ctx = canvas.getContext('2d');
 			var image = new Image();
-			image.src = "data:image/jpeg;base64," + imageData;
+			image.src = imageURI;
+//			image.src = "data:image/jpeg;base64," + imageData;
 //			image.src = imageData;
 			image.onload = function(e) {
 				ctx.drawImage(image,0,0, image.width, image.height,
 									0,0, canvas.width, canvas.height);
-				ctx.lineWidth=3;
-				ctx.fillStyle="yellow";
-//				ctx.lineStyle="#ffff00";
-				ctx.font="5px sans-serif";
-//				var text = "Lat=" + currentLatitude ;
-				ctx.strokeStyle = 'black';
-//				ctx.strokeText(text,10,10);
-//				ctx.fillText(text,10,10);
-//				text = "Lon=" + currentLongitude;
-//				ctx.strokeText(text,10,20);
-//				ctx.fillText(text,10,20);
-//				text = new Date() ;
-//				ctx.strokeText(text,10,30);
-//				ctx.fillText(text,10,30);
-				var btn = document.createElement("button");
-				btn.innerHTML = "Save Photo";
-				btn.setAttribute("id", "saveButt");
-				btn.className="blue_sub";
-				btn.onclick = savePhoto;
-				canid.appendChild(btn);
+/*				window.plugins.flashlight.available(function(isAvailable) {
+					if (isAvailable) 
+					      window.plugins.flashlight.switchOff(); // success/error callbacks may be passed
+				});*/
+				var queryString = "command=send&data=photo";
+				sendfunc(queryString)
+
 			}
 //			console.log(imageData);
 		}, null, {sourceType:Camera.PictureSourceType.CAMERA, quality: 50, 
 //				targetWidth: 1500, targetHeight: 2048,
 				correctOrientation: true,
 				encodingType: Camera.EncodingType.JPEG,
-				destinationType: Camera.DestinationType.DATA_URL});
+				destinationType: Camera.DestinationType.FILE_URI});
 	} else {
 		alert("Camera not supported on this device.");
 	}
 }
 
 /**
- *	savePhoto function, called when photo save button clicked
+ *	make_base function initializes the canvas to the image and size.
  */
-function savePhoto()
+function make_base()
 {
-	window.canvas2ImagePlugin.saveImageDataToLibrary(
-        function(msg){
-			alert("Saving Photo");
-            console.log(msg);
-			var canvas = document.getElementById('canvas');
-//			style="width:auto;height:500px;"
-			canvas.style.width = "auto";
-			canvas.style.height = "0px";
-			var ctx = canvas.getContext('2d');
-			ctx.clearRect(0, 0, canvas.width, canvas.height);
-			var butid = document.getElementById('saveButt');
-			butid.parentNode.removeChild(butid);
-        },
-        function(err){
-            console.log(err);
-        },
-        document.getElementById('canvas')
-    );
+	var canid  = document.getElementById('can_id');
+	var canvas = document.getElementById('canvas');
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
+	var ctx = canvas.getContext('2d');
+	var image = new Image();
+	if ( isIos ) 
+		image.src = "images/ResistorI.png";
+	else
+		image.src = "images/ResistorA.png";
+	image.onload = function(e) {
+		ctx.drawImage(image,0,0, image.width, image.height,
+									0,0, canvas.width, canvas.height);
+	}
 }
+
+/**
+ *	"Ajax" function that sends and processes xmlhttp request
+ *	@param params is GET request string
+ */
+function sendfunc(params) {
+    var xmlhttp;
+	try {
+	   xmlhttp=new XMLHttpRequest();
+    } catch(e) {
+        xmlhttp = false;
+        console.log(e);
+    }
+	if (xmlhttp) {
+        xmlhttp.onreadystatechange=function()
+		{
+		  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+          {
+            returnedList = (xmlhttp.responseText);
+            console.log("Returned value is " + returnedList);
+            returnedText = returnedList;
+			confirm("Thank you for your data submission!");
+			var canvas = document.getElementById('canvas');
+			var ctx = canvas.getContext('2d');
+			ctx.lineWidth=3;
+			ctx.fillStyle="yellow";
+			ctx.font="15px sans-serif";
+			console.log("text is " + returnedText);
+			ctx.strokeStyle = 'black';
+			ctx.strokeText(returnedText,50,100);
+			ctx.fillText(returnedText,50,100);
+		  }
+	} // http://home.loosescre.ws/~keith/ResistorCam/server.php/?command=send&data=%22test%22
+	  // http://home.loosescre.ws/~keith/ResistorCam/server.php?command=send&data=photo 
+	xmlhttp.open("GET","http://home.loosescre.ws/~keith/ResistorCam/server.php" + '?' + params, true);
+	xmlhttp.send(null);
+    }
+}; // sendfunc
+
+function findNewY(bitmap, direction) {
+	var canvas = document.getElementById('canvas');
+	var ctx = canvas.getContext('2d');
+	var ix = image.width;
+	var iy = image.height;
+	var imageData = ctx.getImageData(ix/4, iy/4, ix*3/4, iy*3/4);
+	var data = imageData.data;
+
+  var xmax = bitmap.getWidth();
+  var ymax = bitmap.getHeight();
+  var diff = false ;
+  var color = bitmap.getPixel(xmax/=2,ymax/=2);
+  var red   = Color.red(color) ;
+  var green = Color.green(color) ;
+  var blue  = Color.blue(color) ;
+  for ( var i = ymax; (i > 1) && (diff == false) ; --i )
+  {
+	var newcolor = bitmap.getPixel(xmax,ymax+=direction);
+	var rednew   = Color.red(newcolor) ;
+   	var greennew = Color.green(newcolor) ;
+   	var bluenew  = Color.blue(newcolor)  ;
+   	var absolute = Math.abs(red - rednew) + 
+   		  		 Math.abs(green - greennew) + 
+   		  		 Math.abs(blue - bluenew) ;
+   	if ( absolute > 25 )  // having trouble here finding color change
+   	  diff = true ;
+   	else {
+   	  red = rednew ;
+   	  blue = bluenew;
+   	  green = greennew;
+   	}
+  }
+  return ymax ;
+}
+
