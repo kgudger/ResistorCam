@@ -13,10 +13,6 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Camera\"><param name=\"android-package\" value=\"org.apache.cordova.camera.CameraLauncher\" /></feature>",
-                            "count": 1
-                        },
-                        {
                             "xml": "<feature name=\"Canvas2ImagePlugin\"><param name=\"android-package\" value=\"org.devgeeks.Canvas2ImagePlugin.Canvas2ImagePlugin\" /></feature>",
                             "count": 1
                         },
@@ -25,7 +21,15 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Flashlight\"><param name=\"android-package\" value=\"nl.xservices.plugins.Flashlight\" /></feature>",
+                            "xml": "<feature name=\"CanvasCamera\"><param name=\"android-package\" value=\"com.keith.canvascameraplugin.CanvasCamera\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Camera\"><param name=\"android-package\" value=\"org.apache.cordova.camera.CameraLauncher\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"CameraPreview\"><param name=\"android-package\" value=\"com.cordovaplugincamerapreview.CameraPreview\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -48,6 +52,36 @@
                     "/manifest": [
                         {
                             "xml": "<uses-permission android:name=\"android.permission.CAMERA\" />",
+                            "count": 2
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.RECORD_VIDEO\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-feature android:name=\"android.hardware.camera\" />",
+                            "count": 2
+                        },
+                        {
+                            "xml": "<uses-feature android:name=\"android.hardware.camera.autofocus\" />",
+                            "count": 2
+                        },
+                        {
+                            "xml": "<uses-feature android:name=\"android.hardware.camera.setParameters\" />",
+                            "count": 1
+                        }
+                    ],
+                    "/manifest/application": [
+                        {
+                            "xml": "<activity android:label=\"@string/app_name\" android:name=\"com.keith.canvascameraplugin.CanvasCameraView\" android:theme=\"@android:style/Theme.Black.NoTitleBar\"></activity>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<activity android:name=\"com.cordovaplugincamerapreview.CameraActivity\" android:screenOrientation=\"portrait\" android:theme=\"@style/CameraPreviewTheme\" />",
                             "count": 1
                         }
                     ]
@@ -62,19 +96,22 @@
         "cordova-plugin-statusbar": {
             "PACKAGE_NAME": "com.phonegap.resistorcam"
         },
-        "cordova-plugin-compat": {
-            "PACKAGE_NAME": "com.phonegap.resistorcam"
-        },
-        "cordova-plugin-camera": {
-            "PACKAGE_NAME": "com.phonegap.resistorcam"
-        },
         "org.devgeeks.Canvas2ImagePlugin": {
             "PACKAGE_NAME": "com.phonegap.resistorcam"
         },
         "cordova-plugin-legacy-whitelist": {
             "PACKAGE_NAME": "com.phonegap.resistorcam"
         },
-        "cordova-plugin-flashlight": {
+        "com.keith.cordova.plugin.canvascamera": {
+            "PACKAGE_NAME": "com.phonegap.resistorcam"
+        },
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "com.phonegap.resistorcam"
+        },
+        "cordova-plugin-camera": {
+            "PACKAGE_NAME": "com.phonegap.resistorcam"
+        },
+        "cordova-plugin-camera-preview": {
             "PACKAGE_NAME": "com.phonegap.resistorcam"
         }
     },
@@ -86,6 +123,23 @@
             "pluginId": "cordova-plugin-statusbar",
             "clobbers": [
                 "window.StatusBar"
+            ]
+        },
+        {
+            "id": "org.devgeeks.Canvas2ImagePlugin.Canvas2ImagePlugin",
+            "file": "plugins/org.devgeeks.Canvas2ImagePlugin/www/Canvas2ImagePlugin.js",
+            "pluginId": "org.devgeeks.Canvas2ImagePlugin",
+            "clobbers": [
+                "window.canvas2ImagePlugin"
+            ]
+        },
+        {
+            "id": "com.keith.cordova.plugin.canvascamera.CanvasCamera",
+            "file": "plugins/com.keith.cordova.plugin.canvascamera/www/CanvasCamera.js",
+            "pluginId": "com.keith.cordova.plugin.canvascamera",
+            "clobbers": [
+                "plugin.CanvasCamera",
+                "CanvasCamera"
             ]
         },
         {
@@ -121,29 +175,22 @@
             ]
         },
         {
-            "id": "org.devgeeks.Canvas2ImagePlugin.Canvas2ImagePlugin",
-            "file": "plugins/org.devgeeks.Canvas2ImagePlugin/www/Canvas2ImagePlugin.js",
-            "pluginId": "org.devgeeks.Canvas2ImagePlugin",
+            "id": "cordova-plugin-camera-preview.CameraPreview",
+            "file": "plugins/cordova-plugin-camera-preview/www/CameraPreview.js",
+            "pluginId": "cordova-plugin-camera-preview",
             "clobbers": [
-                "window.canvas2ImagePlugin"
-            ]
-        },
-        {
-            "id": "cordova-plugin-flashlight.Flashlight",
-            "file": "plugins/cordova-plugin-flashlight/www/Flashlight.js",
-            "pluginId": "cordova-plugin-flashlight",
-            "clobbers": [
-                "window.plugins.flashlight"
+                "CameraPreview"
             ]
         }
     ],
     "plugin_metadata": {
         "cordova-plugin-console": "1.0.6",
         "cordova-plugin-statusbar": "1.0.1",
-        "cordova-plugin-compat": "1.1.0",
-        "cordova-plugin-camera": "2.4.0",
         "org.devgeeks.Canvas2ImagePlugin": "0.6.0",
         "cordova-plugin-legacy-whitelist": "1.1.2",
-        "cordova-plugin-flashlight": "3.2.0"
+        "com.keith.cordova.plugin.canvascamera": "1.0.0dev",
+        "cordova-plugin-compat": "1.1.0",
+        "cordova-plugin-camera": "2.4.0",
+        "cordova-plugin-camera-preview": "0.9.0"
     }
 }

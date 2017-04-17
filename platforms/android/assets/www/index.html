@@ -40,9 +40,10 @@
     <!-- Panels overlay-->
     <div class="panel-overlay"></div>
     <!-- Left panel with reveal effect-->
-    <div class="panel panel-left panel-reveal" id="leftpanel">
+    <div class="panel-blue panel panel-left panel-reveal" id="leftpanel">
         <div class="content-block">
-            <p>Left panel content goes here</p>
+            <p>Press <i class="f7-icons">camera</i> camera icon to take a picture of the resistor.
+            The value will appear written over the picture.</p>
         </div>
     </div>
 
@@ -53,17 +54,18 @@
             <!-- Top Navbar-->
             <div class="navbar">
                 <div class="navbar-inner">
-                    <!-- We need cool sliding animation on title element, so we have additional "sliding" class -->
-					<div class="left">
-                    <a href="#" class="link" onclick="photoCap()"><i class="f7-icons">camera</i></a>
-                    </div>
-                    <div class="center sliding">ResistorCam</div>
-                    <div class="right">
+                    <div class="left">
                         <!--
                           Right link contains only icon - additional "icon-only" class
                           Additional "open-panel" class tells app to open panel when we click on this link
-                        -->
                         <a href="#" class="link icon-only open-panel"><i class="icon icon-bars"></i></a>
+                        -->
+                        <a href="#" class="open-panel link"><i class="f7-icons">help</i></a>
+                    </div>
+                    <!-- We need cool sliding animation on title element, so we have additional "sliding" class -->
+                    <div class="center sliding">ResistorCam</div>
+					<div class="right">
+						<a href="#" class="link" onclick="photoCap2()"><i class="f7-icons">camera</i></a>
                     </div>
                 </div>
             </div>

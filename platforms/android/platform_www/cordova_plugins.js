@@ -9,6 +9,23 @@ module.exports = [
         ]
     },
     {
+        "id": "org.devgeeks.Canvas2ImagePlugin.Canvas2ImagePlugin",
+        "file": "plugins/org.devgeeks.Canvas2ImagePlugin/www/Canvas2ImagePlugin.js",
+        "pluginId": "org.devgeeks.Canvas2ImagePlugin",
+        "clobbers": [
+            "window.canvas2ImagePlugin"
+        ]
+    },
+    {
+        "id": "com.keith.cordova.plugin.canvascamera.CanvasCamera",
+        "file": "plugins/com.keith.cordova.plugin.canvascamera/www/CanvasCamera.js",
+        "pluginId": "com.keith.cordova.plugin.canvascamera",
+        "clobbers": [
+            "plugin.CanvasCamera",
+            "CanvasCamera"
+        ]
+    },
+    {
         "id": "cordova-plugin-camera.Camera",
         "file": "plugins/cordova-plugin-camera/www/CameraConstants.js",
         "pluginId": "cordova-plugin-camera",
@@ -41,19 +58,11 @@ module.exports = [
         ]
     },
     {
-        "id": "org.devgeeks.Canvas2ImagePlugin.Canvas2ImagePlugin",
-        "file": "plugins/org.devgeeks.Canvas2ImagePlugin/www/Canvas2ImagePlugin.js",
-        "pluginId": "org.devgeeks.Canvas2ImagePlugin",
+        "id": "cordova-plugin-camera-preview.CameraPreview",
+        "file": "plugins/cordova-plugin-camera-preview/www/CameraPreview.js",
+        "pluginId": "cordova-plugin-camera-preview",
         "clobbers": [
-            "window.canvas2ImagePlugin"
-        ]
-    },
-    {
-        "id": "cordova-plugin-flashlight.Flashlight",
-        "file": "plugins/cordova-plugin-flashlight/www/Flashlight.js",
-        "pluginId": "cordova-plugin-flashlight",
-        "clobbers": [
-            "window.plugins.flashlight"
+            "CameraPreview"
         ]
     }
 ];
@@ -62,11 +71,12 @@ module.exports.metadata =
 {
     "cordova-plugin-console": "1.0.6",
     "cordova-plugin-statusbar": "1.0.1",
-    "cordova-plugin-compat": "1.1.0",
-    "cordova-plugin-camera": "2.4.0",
     "org.devgeeks.Canvas2ImagePlugin": "0.6.0",
     "cordova-plugin-legacy-whitelist": "1.1.2",
-    "cordova-plugin-flashlight": "3.2.0"
+    "com.keith.cordova.plugin.canvascamera": "1.0.0dev",
+    "cordova-plugin-compat": "1.1.0",
+    "cordova-plugin-camera": "2.4.0",
+    "cordova-plugin-camera-preview": "0.9.0"
 };
 // BOTTOM OF METADATA
 });

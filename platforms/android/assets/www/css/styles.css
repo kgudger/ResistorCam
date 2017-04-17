@@ -46,3 +46,13 @@
   -moz-font-feature-settings: "liga";
   font-feature-settings: "liga";
 }
+
+.panel-blue {
+    background-color: #2196f3 !important;
+    color: white;
+}
+
+html, body, .ion-app, .ion-content {
+  background-color: transparent !important;
+}
+
