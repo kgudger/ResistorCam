@@ -17,7 +17,7 @@
        under the License.
  */
 
-package com.phonegap.resistorcam;
+package com.phonegap.rcam;
 
 import android.os.Bundle;
 import org.apache.cordova.*;

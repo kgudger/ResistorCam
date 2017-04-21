@@ -1,5 +1,8 @@
 var isAndroid = Framework7.prototype.device.android === true;
 var isIos = Framework7.prototype.device.ios === true;
+var cwidth = window.innerWidth;
+var cheight = window.innerHeight;
+
 
 Template7.global = {
     android: isAndroid,
@@ -58,10 +61,25 @@ $$(document).on('deviceready',*/ function() {
                 height:960
               };
     CanvasCamera.start(opt);*/
-    CameraPreview.startCamera({toBack: true, 
-		previewDrag: true, tapPhoto: true,
-		camera: CameraPreview.CAMERA_DIRECTION.BACK});
+	if ( typeof CameraPreview != "undefined" ) {
+		CameraPreview.startCamera({toBack: true, 
+			previewDrag: true, tapPhoto: true,
+			width: cwidth,
+			height: cheight,
+			camera: CameraPreview.CAMERA_DIRECTION.BACK});
+		var location_timeout = setTimeout("startFlash()", 2000);
+	} else {
+		alert("Camera not supported on this device.");
+	}
 });
+
+/** 
+ *	Delayed start camera flash
+ */
+function startFlash() {
+	console.log('In startFlash');
+	CameraPreview.setFlashMode(CameraPreview.FLASH_MODE.TORCH);
+}
 
 // Now we need to run the code that will be executed only for About page.
 
@@ -134,14 +152,95 @@ function photoCap() {
 	}
 }
 function photoCap2() {
-	alert("Taking Photo");
+//	alert("Taking Photo");
+	if ( typeof CameraPreview != "undefined" ) {
 	CameraPreview.takePicture(function(imgData){
 			var canvas = document.getElementById('canvas');
 			var ctx = canvas.getContext('2d');
 			var image = new Image();
 			image.src = 'data:image/jpeg;base64,' + imgData;
 //      document.getElementById('originalPicture').src = 'data:image/jpeg;base64,' + imgData;
-    });
+			image.onload = function(e) {
+				ctx.drawImage(image,0,0, image.width, image.height,
+									0,0, canvas.width, canvas.height);
+/*				window.plugins.flashlight.available(function(isAvailable) {
+					if (isAvailable) 
+					      window.plugins.flashlight.switchOff(); // success/error callbacks may be passed
+				});*/
+				var cx = canvas.width / 2;
+				var cy = canvas.height / 3;
+				var cym = canvas.height / 2;
+				var imgData = ctx.getImageData(cx, cy, 1, cy);
+				var pdata = imgData.data;
+				var nPixLen = pdata.length;
+				var Red   = new Array();
+				var Green = new Array();
+				var Blue  = new Array();
+				var xtion = new Array();
+				var k = 0 ;
+				var j = 0 ;
+				var change = false;
+				for ( var i = 0; i < nPixLen - 4; i+=4 ) { // one less than total
+					Red[j] = pdata[i];
+					Green[j] = pdata[i+1];
+					Blue[j] = pdata[i+2] ;
+					var delta = Math.abs(pdata[i]   - pdata[i+4]) +
+								Math.abs(pdata[i+1] - pdata[i+5]) +
+								Math.abs(pdata[i+2] - pdata[i+6]) ;
+					if ( delta > 20 ) {
+						if ( change == false ) {
+							change = true ;
+							xtion[k++] = j ;
+						}
+					} else {
+						change = false ;
+					}
+					j++ ;
+				}
+				var stt = 0 ; // beginning of pixels
+				for ( var i = 0; i < xtion.length; i++ ) {
+					var midpt = Math.round((xtion[i] - stt) / 2) + stt ; // midpoint of each color
+					Red[i] = pdata[midpt*4];
+					Green[i] = pdata[midpt*4+1];
+					Blue[i] = pdata[midpt*4+2] ;
+					stt = xtion[i] ; // next transition point
+				}
+				var midpt = Math.round((nPixLen / 4 - stt) / 2) + stt ; // midpoint of last color
+				Red[i] = pdata[midpt*4];
+				Green[i] = pdata[midpt*4+1];
+				Blue[i] = pdata[midpt*4+2] ;
+
+				ctx.strokeStyle="#FFFF00";
+				ctx.lineWidth = 2;
+				ctx.beginPath();
+				ctx.moveTo(cx, cy);
+				ctx.lineTo(cx, cy*2);
+				ctx.stroke();
+				ctx.beginPath();
+				ctx.moveTo(cx-10, cym);
+				ctx.lineTo(cx+10, cym);
+				ctx.stroke();
+				console.log(JSON.stringify(Red));
+				console.log(JSON.stringify(Green));
+				console.log(JSON.stringify(Blue));
+				console.log(JSON.stringify(xtion));
+				var midpt   = Math.round(Red.length / 2) ; 
+				var diff    = new Array();
+				for ( var i = 0; i < Red.length ; i++ ) {
+					diff[i] = Math.abs(Red[midpt]-Red[i]) +
+						Math.abs(Green[midpt]-Green[i]) +
+						Math.abs(Blue[midpt]-Blue[i]) ;
+				}
+				var jdata = JSON.stringify(diff);
+				var queryString = "command=send&data=" + jdata;
+				console.log(jdata);
+				sendfunc(queryString)
+				document.getElementById("cambut").setAttribute( "onClick", "javascript: make_base();");
+			}
+		});
+	} else {
+		alert("Camera not supported on this device.");
+	}
 }
 
 /**
@@ -151,10 +250,12 @@ function make_base()
 {
 	var canid  = document.getElementById('can_id');
 	var canvas = document.getElementById('canvas');
-	var cwidth = canvas.width = window.innerWidth;
-	var cheight = canvas.height = window.innerHeight;
+	cwidth = canvas.width = window.innerWidth;
+	cheight = canvas.height = window.innerHeight;
 	var ctx = canvas.getContext('2d');
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	ctx.strokeStyle="#FFFF00";
+	ctx.beginPath();
 	ctx.rect(cwidth/4, cheight/5, cwidth/2, cheight*3/5);
 	ctx.stroke();
 	ctx.beginPath();
@@ -166,6 +267,7 @@ function make_base()
     ctx.moveTo(cwidth/2-10, cheight/2);
     ctx.lineTo(cwidth/2+10, cheight/2);
 	ctx.stroke();
+	document.getElementById("cambut").setAttribute( "onClick", "javascript: photoCap2();");
 //	ctx.fillStyle = "rgba(0, 0, 0, 0.0)";
 /*
 	var image = new Image();
@@ -252,3 +354,16 @@ function findNewY(bitmap, direction) {
   return ymax ;
 }
 
+/* Canvas draw line
+ * @param ctx is canvas context
+ * @param x is starting x
+ * @param y is starting y
+ * @param xe is ending x
+ * @param ye is ending y
+ */
+function cdraw_line(ctx, x,y,xe,ye) {
+	ctx.beginPath();
+	ctx.moveTo(x, y);
+	ctx.lineTo(xe, ye);
+	ctx.stroke();
+}
