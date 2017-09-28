@@ -7,31 +7,31 @@
         "files": {}
     },
     "installed_plugins": {
-        "cordova-plugin-console": {
-            "PACKAGE_NAME": "com.phonegap.resistorcam"
-        },
-        "cordova-plugin-statusbar": {
-            "PACKAGE_NAME": "com.phonegap.resistorcam"
-        },
-        "org.devgeeks.Canvas2ImagePlugin": {
-            "PACKAGE_NAME": "com.phonegap.resistorcam"
-        },
-        "cordova-plugin-legacy-whitelist": {
-            "PACKAGE_NAME": "com.phonegap.resistorcam"
-        },
         "com.keith.cordova.plugin.canvascamera": {
-            "PACKAGE_NAME": "com.phonegap.resistorcam"
+            "PACKAGE_NAME": "com.phonegap.rcam"
         },
         "cordova-plugin-camera": {
-            "PACKAGE_NAME": "com.phonegap.resistorcam"
+            "PACKAGE_NAME": "com.phonegap.rcam"
+        },
+        "cordova-plugin-console": {
+            "PACKAGE_NAME": "com.phonegap.rcam"
+        },
+        "cordova-plugin-legacy-whitelist": {
+            "PACKAGE_NAME": "com.phonegap.rcam"
+        },
+        "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "com.phonegap.rcam"
+        },
+        "org.devgeeks.Canvas2ImagePlugin": {
+            "PACKAGE_NAME": "com.phonegap.rcam"
         },
         "cordova-plugin-camera-preview": {
-            "PACKAGE_NAME": "com.phonegap.resistorcam"
+            "PACKAGE_NAME": "com.phonegap.rcam"
         }
     },
     "dependent_plugins": {
         "cordova-plugin-compat": {
-            "PACKAGE_NAME": "com.phonegap.resistorcam"
+            "PACKAGE_NAME": "com.phonegap.rcam"
         }
     }
 }

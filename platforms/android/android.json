@@ -9,11 +9,11 @@
                 "parents": {
                     "/*": [
                         {
-                            "xml": "<feature name=\"StatusBar\"><param name=\"android-package\" value=\"org.apache.cordova.statusbar.StatusBar\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "xml": "<feature name=\"CanvasCamera\"><param name=\"android-package\" value=\"com.keith.canvascameraplugin.CanvasCamera\" /></feature>",
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Canvas2ImagePlugin\"><param name=\"android-package\" value=\"org.devgeeks.Canvas2ImagePlugin.Canvas2ImagePlugin\" /></feature>",
+                            "xml": "<feature name=\"Camera\"><param name=\"android-package\" value=\"org.apache.cordova.camera.CameraLauncher\" /></feature>",
                             "count": 1
                         },
                         {
@@ -21,11 +21,11 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"CanvasCamera\"><param name=\"android-package\" value=\"com.keith.canvascameraplugin.CanvasCamera\" /></feature>",
+                            "xml": "<feature name=\"StatusBar\"><param name=\"android-package\" value=\"org.apache.cordova.statusbar.StatusBar\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Camera\"><param name=\"android-package\" value=\"org.apache.cordova.camera.CameraLauncher\" /></feature>",
+                            "xml": "<feature name=\"Canvas2ImagePlugin\"><param name=\"android-package\" value=\"org.devgeeks.Canvas2ImagePlugin.Canvas2ImagePlugin\" /></feature>",
                             "count": 1
                         },
                         {
@@ -37,6 +37,42 @@
             },
             "AndroidManifest.xml": {
                 "parents": {
+                    "/manifest/application": [
+                        {
+                            "xml": "<activity android:label=\"@string/app_name\" android:name=\"com.keith.canvascameraplugin.CanvasCameraView\" android:theme=\"@android:style/Theme.Black.NoTitleBar\"></activity>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<activity android:name=\"com.cordovaplugincamerapreview.CameraActivity\" android:screenOrientation=\"portrait\" android:theme=\"@style/CameraPreviewTheme\" />",
+                            "count": 1
+                        }
+                    ],
+                    "/manifest": [
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.RECORD_VIDEO\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.CAMERA\" />",
+                            "count": 2
+                        },
+                        {
+                            "xml": "<uses-feature android:name=\"android.hardware.camera\" />",
+                            "count": 3
+                        },
+                        {
+                            "xml": "<uses-feature android:name=\"android.hardware.camera.autofocus\" />",
+                            "count": 2
+                        },
+                        {
+                            "xml": "<uses-feature android:name=\"android.hardware.camera.setParameters\" />",
+                            "count": 1
+                        }
+                    ],
                     "/*": [
                         {
                             "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
@@ -48,91 +84,39 @@
                             "xml": "<provider android:authorities=\"${applicationId}.provider\" android:exported=\"false\" android:grantUriPermissions=\"true\" android:name=\"android.support.v4.content.FileProvider\"><meta-data android:name=\"android.support.FILE_PROVIDER_PATHS\" android:resource=\"@xml/provider_paths\" /></provider>",
                             "count": 1
                         }
-                    ],
-                    "/manifest": [
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.CAMERA\" />",
-                            "count": 2
-                        },
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.RECORD_VIDEO\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<uses-feature android:name=\"android.hardware.camera\" />",
-                            "count": 2
-                        },
-                        {
-                            "xml": "<uses-feature android:name=\"android.hardware.camera.autofocus\" />",
-                            "count": 2
-                        },
-                        {
-                            "xml": "<uses-feature android:name=\"android.hardware.camera.setParameters\" />",
-                            "count": 1
-                        }
-                    ],
-                    "/manifest/application": [
-                        {
-                            "xml": "<activity android:label=\"@string/app_name\" android:name=\"com.keith.canvascameraplugin.CanvasCameraView\" android:theme=\"@android:style/Theme.Black.NoTitleBar\"></activity>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<activity android:name=\"com.cordovaplugincamerapreview.CameraActivity\" android:screenOrientation=\"portrait\" android:theme=\"@style/CameraPreviewTheme\" />",
-                            "count": 1
-                        }
                     ]
                 }
             }
         }
     },
     "installed_plugins": {
-        "cordova-plugin-console": {
-            "PACKAGE_NAME": "com.phonegap.resistorcam"
-        },
-        "cordova-plugin-statusbar": {
-            "PACKAGE_NAME": "com.phonegap.resistorcam"
-        },
-        "org.devgeeks.Canvas2ImagePlugin": {
-            "PACKAGE_NAME": "com.phonegap.resistorcam"
-        },
-        "cordova-plugin-legacy-whitelist": {
-            "PACKAGE_NAME": "com.phonegap.resistorcam"
-        },
         "com.keith.cordova.plugin.canvascamera": {
-            "PACKAGE_NAME": "com.phonegap.resistorcam"
+            "PACKAGE_NAME": "com.phonegap.rcam"
         },
         "cordova-plugin-compat": {
-            "PACKAGE_NAME": "com.phonegap.resistorcam"
+            "PACKAGE_NAME": "com.phonegap.rcam"
         },
         "cordova-plugin-camera": {
-            "PACKAGE_NAME": "com.phonegap.resistorcam"
+            "PACKAGE_NAME": "com.phonegap.rcam"
+        },
+        "cordova-plugin-console": {
+            "PACKAGE_NAME": "com.phonegap.rcam"
+        },
+        "cordova-plugin-legacy-whitelist": {
+            "PACKAGE_NAME": "com.phonegap.rcam"
+        },
+        "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "com.phonegap.rcam"
+        },
+        "org.devgeeks.Canvas2ImagePlugin": {
+            "PACKAGE_NAME": "com.phonegap.rcam"
         },
         "cordova-plugin-camera-preview": {
-            "PACKAGE_NAME": "com.phonegap.resistorcam"
+            "PACKAGE_NAME": "com.phonegap.rcam"
         }
     },
     "dependent_plugins": {},
     "modules": [
-        {
-            "id": "cordova-plugin-statusbar.statusbar",
-            "file": "plugins/cordova-plugin-statusbar/www/statusbar.js",
-            "pluginId": "cordova-plugin-statusbar",
-            "clobbers": [
-                "window.StatusBar"
-            ]
-        },
-        {
-            "id": "org.devgeeks.Canvas2ImagePlugin.Canvas2ImagePlugin",
-            "file": "plugins/org.devgeeks.Canvas2ImagePlugin/www/Canvas2ImagePlugin.js",
-            "pluginId": "org.devgeeks.Canvas2ImagePlugin",
-            "clobbers": [
-                "window.canvas2ImagePlugin"
-            ]
-        },
         {
             "id": "com.keith.cordova.plugin.canvascamera.CanvasCamera",
             "file": "plugins/com.keith.cordova.plugin.canvascamera/www/CanvasCamera.js",
@@ -175,6 +159,22 @@
             ]
         },
         {
+            "id": "cordova-plugin-statusbar.statusbar",
+            "file": "plugins/cordova-plugin-statusbar/www/statusbar.js",
+            "pluginId": "cordova-plugin-statusbar",
+            "clobbers": [
+                "window.StatusBar"
+            ]
+        },
+        {
+            "id": "org.devgeeks.Canvas2ImagePlugin.Canvas2ImagePlugin",
+            "file": "plugins/org.devgeeks.Canvas2ImagePlugin/www/Canvas2ImagePlugin.js",
+            "pluginId": "org.devgeeks.Canvas2ImagePlugin",
+            "clobbers": [
+                "window.canvas2ImagePlugin"
+            ]
+        },
+        {
             "id": "cordova-plugin-camera-preview.CameraPreview",
             "file": "plugins/cordova-plugin-camera-preview/www/CameraPreview.js",
             "pluginId": "cordova-plugin-camera-preview",
@@ -184,13 +184,13 @@
         }
     ],
     "plugin_metadata": {
-        "cordova-plugin-console": "1.0.6",
-        "cordova-plugin-statusbar": "1.0.1",
-        "org.devgeeks.Canvas2ImagePlugin": "0.6.0",
-        "cordova-plugin-legacy-whitelist": "1.1.2",
         "com.keith.cordova.plugin.canvascamera": "1.0.0dev",
         "cordova-plugin-compat": "1.1.0",
         "cordova-plugin-camera": "2.4.0",
+        "cordova-plugin-console": "1.0.6",
+        "cordova-plugin-legacy-whitelist": "1.1.2",
+        "cordova-plugin-statusbar": "1.0.1",
+        "org.devgeeks.Canvas2ImagePlugin": "0.6.0",
         "cordova-plugin-camera-preview": "0.9.0"
     }
 }

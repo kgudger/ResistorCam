@@ -148,7 +148,7 @@ public class CanvasCameraView extends Activity implements SurfaceHolder.Callback
     private void initializeUI()
     {
         if (bFlash)
-            m_imgFlash.setImageResource(getResources().getIdentifier("video_sprites_focus_inactive", "drawable", getPackageName()));
+            m_surfaceview = (SurfaceView) findViewById(getResources().getIdentifier("surfaceView", "id", getPackageName()));
         else
             m_imgFlash.setImageResource(getResources().getIdentifier("video_sprites_focus", "drawable", getPackageName()));
 

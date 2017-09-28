@@ -59,9 +59,8 @@
     },
     "cordova-plugin-camera-preview": {
         "source": {
-            "type": "git",
-            "url": "https://github.com/cordova-plugin-camera-preview/cordova-plugin-camera-preview.git",
-            "subdir": "."
+            "type": "registry",
+            "id": "cordova-plugin-camera-preview"
         },
         "is_top_level": true,
         "variables": {}

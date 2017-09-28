@@ -2,7 +2,7 @@ var isAndroid = Framework7.prototype.device.android === true;
 var isIos = Framework7.prototype.device.ios === true;
 var cwidth = window.innerWidth;
 var cheight = window.innerHeight;
-
+var MaxZoom = 1;
 
 Template7.global = {
     android: isAndroid,
@@ -78,7 +78,19 @@ $$(document).on('deviceready',*/ function() {
  */
 function startFlash() {
 	console.log('In startFlash');
-	CameraPreview.setFlashMode(CameraPreview.FLASH_MODE.TORCH);
+//	CameraPreview.setFlashMode(CameraPreview.FLASH_MODE.TORCH);
+	CameraPreview.setFlashMode(CameraPreview.FLASH_MODE.OFF);
+	CameraPreview.getMaxZoom(function(maxZoom){
+		console.log("Maximum Zoom is :" + maxZoom);
+		if (maxZoom >= 48) {
+			CameraPreview.setZoom(48);
+		} else {
+			CameraPreview.setZoom(maxZoom);
+		}
+		CameraPreview.getZoom(function(currentZoom){
+			console.log("Current zoom is " + currentZoom);
+		});
+	});
 }
 
 // Now we need to run the code that will be executed only for About page.
@@ -129,7 +141,11 @@ function photoCap() {
 			var image = new Image();
 			image.src = imageURI;
 //			image.src = "data:image/jpeg;base64," + imageData;
-//			image.src = imageData;
+//			image.src = imageData;	ctx.rect(cwidth*3/8, cheight/3, cwidth/4, cheight/3);
+			var cx = canvas.width / 2;
+			var cy = canvas.height / 3;
+			var imgData = ctx.getImageData(cx, cy, 1, cy);
+			var pdata = imgData.data;
 			image.onload = function(e) {
 				ctx.drawImage(image,0,0, image.width, image.height,
 									0,0, canvas.width, canvas.height);
@@ -137,11 +153,12 @@ function photoCap() {
 					if (isAvailable) 
 					      window.plugins.flashlight.switchOff(); // success/error callbacks may be passed
 				});*/
-				var queryString = "command=send&data=photo";
+				var jdata = JSON.stringify(pdata);
+				var queryString = "command=send&data=" + jdata;
 				sendfunc(queryString)
 
 			}
-//			console.log(imageData);
+			console.log(pdata);
 		}, null, {sourceType:Camera.PictureSourceType.CAMERA, quality: 50, 
 //				targetWidth: 1500, targetHeight: 2048,
 				correctOrientation: true,
@@ -173,31 +190,38 @@ function photoCap2() {
 				var imgData = ctx.getImageData(cx, cy, 1, cy);
 				var pdata = imgData.data;
 				var nPixLen = pdata.length;
+				tPixes = 4; // there are 4 bytes per pixel, so this needs to be 4 minimum
+				//Math.round(nPixLen / (48)) // how many bunches to scale down to
 				var Red   = new Array();
 				var Green = new Array();
 				var Blue  = new Array();
-				var xtion = new Array();
+//				var xtion = new Array();
+				var jdata = new Array();
 				var k = 0 ;
 				var j = 0 ;
 				var change = false;
-				for ( var i = 0; i < nPixLen - 4; i+=4 ) { // one less than total
+				for ( var i = 0; i < nPixLen ; i+=tPixes ) { // 3 less than total
 					Red[j] = pdata[i];
 					Green[j] = pdata[i+1];
 					Blue[j] = pdata[i+2] ;
-					var delta = Math.abs(pdata[i]   - pdata[i+4]) +
-								Math.abs(pdata[i+1] - pdata[i+5]) +
-								Math.abs(pdata[i+2] - pdata[i+6]) ;
-					if ( delta > 20 ) {
+					console.log("i is " + i + " j is " + j + " Red[j] is " + Red[j]);
+					j++ ;
+/*					var delta = Math.abs(pdata[i]   - pdata[i+12]) +
+								Math.abs(pdata[i+1] - pdata[i+13]) +
+								Math.abs(pdata[i+2] - pdata[i+14]) ;
+					if ( delta > 40 ) {
 						if ( change == false ) {
 							change = true ;
 							xtion[k++] = j ;
 						}
 					} else {
 						change = false ;
-					}
-					j++ ;
+					} */
 				}
-				var stt = 0 ; // beginning of pixels
+				jdata[0] = Red ;
+				jdata[1] = Green;
+				jdata[2] = Blue;
+/*				var stt = 0 ; // beginning of pixels
 				for ( var i = 0; i < xtion.length; i++ ) {
 					var midpt = Math.round((xtion[i] - stt) / 2) + stt ; // midpoint of each color
 					Red[i] = pdata[midpt*4];
@@ -209,7 +233,7 @@ function photoCap2() {
 				Red[i] = pdata[midpt*4];
 				Green[i] = pdata[midpt*4+1];
 				Blue[i] = pdata[midpt*4+2] ;
-
+*/
 				ctx.strokeStyle="#FFFF00";
 				ctx.lineWidth = 2;
 				ctx.beginPath();
@@ -223,16 +247,16 @@ function photoCap2() {
 				console.log(JSON.stringify(Red));
 				console.log(JSON.stringify(Green));
 				console.log(JSON.stringify(Blue));
-				console.log(JSON.stringify(xtion));
+/*				console.log(JSON.stringify(xtion));
 				var midpt   = Math.round(Red.length / 2) ; 
-				var diff    = new Array();
-				for ( var i = 0; i < Red.length ; i++ ) {
+				var diff    = new Array();*/
+/*				for ( var i = 0; i < Red.length ; i++ ) {
 					diff[i] = Math.abs(Red[midpt]-Red[i]) +
 						Math.abs(Green[midpt]-Green[i]) +
 						Math.abs(Blue[midpt]-Blue[i]) ;
-				}
-				var jdata = JSON.stringify(diff);
-				var queryString = "command=send&data=" + jdata;
+				}*/
+				var jdata2 = JSON.stringify(jdata) ;
+				var queryString = "command=send&data=" + jdata2;
 				console.log(jdata);
 				sendfunc(queryString)
 				document.getElementById("cambut").setAttribute( "onClick", "javascript: make_base();");
@@ -256,7 +280,7 @@ function make_base()
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	ctx.strokeStyle="#FFFF00";
 	ctx.beginPath();
-	ctx.rect(cwidth/4, cheight/5, cwidth/2, cheight*3/5);
+	ctx.rect(cwidth*3/8, cheight/3, cwidth/4, cheight/3);
 	ctx.stroke();
 	ctx.beginPath();
     ctx.moveTo(cwidth/2, cheight/3);
@@ -301,7 +325,7 @@ function sendfunc(params) {
             returnedList = (xmlhttp.responseText);
             console.log("Returned value is " + returnedList);
             returnedText = returnedList;
-			confirm("Thank you for your data submission!");
+//			confirm("Thank you for your data submission!");
 			var canvas = document.getElementById('canvas');
 			var ctx = canvas.getContext('2d');
 			ctx.lineWidth=3;
